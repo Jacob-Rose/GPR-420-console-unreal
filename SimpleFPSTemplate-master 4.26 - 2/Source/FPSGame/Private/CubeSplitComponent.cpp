@@ -21,9 +21,8 @@ void UCubeSplitComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	boxComp = GetOwner()->FindComponentByClass<UBoxComponent>();
-
-	boxComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+	m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+	//boxComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
 	
 	
 }
@@ -39,5 +38,7 @@ void UCubeSplitComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+
+
 }
 

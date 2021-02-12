@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "CubeSplitComponent.generated.h"
 
 
@@ -23,7 +24,7 @@ protected:
 public:	
 
 	UPROPERTY(VisibleAnywhere)
-	UBoxComponent* boxComp;
+	UStaticMeshComponent* m_MeshComp;
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

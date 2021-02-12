@@ -39,6 +39,25 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
+		//Set Color
+		UMaterialInstanceDynamic* matInstance = OtherComp->CreateAndSetMaterialInstanceDynamic(0);
+		if (matInstance)
+			matInstance->SetVectorParameterValue("Color", FLinearColor::MakeRandomColor());
+
+
+		//Set Scale
+		FVector Scale = OtherComp->GetComponentScale();
+		Scale *= 0.8f;
+
+		if (Scale.GetMin() < 0.5f)
+		{
+			OtherComp->GetOwner()->Destroy();
+		}
+		else
+		{
+			OtherComp->SetWorldScale3D(Scale);
+		}
+
 		Destroy();
 	}
 }
