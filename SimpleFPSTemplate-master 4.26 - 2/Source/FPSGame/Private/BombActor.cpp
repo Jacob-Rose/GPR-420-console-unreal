@@ -17,6 +17,7 @@ ABombActor::ABombActor()
 void ABombActor::Explode()
 {
 	UGameplayStatics::SpawnEmitterAtLocation(this, ExplosionTemplate, GetActorLocation());
+	Destroy();
 }
 
 // Called when the game starts or when spawned

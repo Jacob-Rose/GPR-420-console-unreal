@@ -3,6 +3,7 @@
 #include "FPSProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "BombActor.h"
 
 AFPSProjectile::AFPSProjectile() 
 {
@@ -51,6 +52,7 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 		if (Scale.GetMin() < 0.5f)
 		{
+			ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
 			OtherComp->GetOwner()->Destroy();
 		}
 		else

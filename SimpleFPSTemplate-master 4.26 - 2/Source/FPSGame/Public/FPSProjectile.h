@@ -9,6 +9,7 @@
 
 class UProjectileMovementComponent;
 class USphereComponent;
+class ABombActor;
 
 
 UCLASS()
@@ -25,6 +26,10 @@ protected:
 	/** Projectile movement component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	UProjectileMovementComponent* ProjectileMovement;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
+	TSubclassOf<ABombActor> bombClass;
 
 public:
 
