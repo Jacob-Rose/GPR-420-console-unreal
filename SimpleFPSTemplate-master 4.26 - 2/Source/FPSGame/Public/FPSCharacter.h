@@ -33,6 +33,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComponent;
 
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
+	bool bIsCharging = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
+	float MaxCharge = 10.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
+	float CurrentCharge = 0.0f;
+
+
 public:
 	AFPSCharacter();
 
@@ -49,7 +60,7 @@ public:
 	UAnimSequence* FireAnimation;
 
 protected:
-	
+		
 	/** Fires a projectile. */
 	void Fire();
 
@@ -59,9 +70,17 @@ protected:
 	/** Handles strafing movement, left and right */
 	void MoveRight(float Val);
 
+	/** Charges projectile AOE when shift hit */
+	void ChargePress();
+
+	void ChargeRelease();
+
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1PComponent; }
 

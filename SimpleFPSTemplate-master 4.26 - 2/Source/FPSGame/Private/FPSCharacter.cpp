@@ -11,6 +11,9 @@
 
 AFPSCharacter::AFPSCharacter()
 {
+	//Charging will need the ability to tick
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Create a CameraComponent	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
@@ -38,6 +41,8 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSCharacter::Fire);
+	PlayerInputComponent->BindAction("Charge", IE_Pressed, this, &AFPSCharacter::ChargePress);
+	PlayerInputComponent->BindAction("Charge", IE_Released, this, &AFPSCharacter::ChargeRelease);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFPSCharacter::MoveRight);
@@ -46,6 +51,43 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
 
+void AFPSCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (bIsCharging)
+	{
+		//Add deltaTime to charge variable until >= max charge
+		if (CurrentCharge < MaxCharge)
+		{
+			CurrentCharge += DeltaTime;
+		}
+		else
+		{
+			CurrentCharge = MaxCharge;
+		}
+	}
+	else
+	{
+		//Charge variable = 0.0f;
+		CurrentCharge = 0.0f;
+	}
+
+}
+
+void AFPSCharacter::ChargePress()
+{
+	/*
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("ChargePressed"));
+	}*/
+	bIsCharging = true;
+}
+
+void AFPSCharacter::ChargeRelease()
+{
+	bIsCharging = false;
+}
 
 void AFPSCharacter::Fire()
 {
