@@ -38,7 +38,7 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+		OtherComp->AddImpulseAtLocation(GetVelocity() * 300.0f, GetActorLocation());
 
 		//Set Color
 		UMaterialInstanceDynamic* matInstance = OtherComp->CreateAndSetMaterialInstanceDynamic(0);
@@ -48,9 +48,9 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 		//Set Scale
 		FVector Scale = OtherComp->GetComponentScale();
-		Scale *= 0.8f;
+		Scale *= 0.95f;
 
-		if (Scale.GetMin() < 0.5f)
+		if (Scale.GetMin() < 0.8f)
 		{
 			ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
 			OtherComp->GetOwner()->Destroy();

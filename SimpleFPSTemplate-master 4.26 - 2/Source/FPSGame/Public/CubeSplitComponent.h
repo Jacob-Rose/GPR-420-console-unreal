@@ -26,10 +26,16 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* m_MeshComp;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UActorComponent> m_SplitCubeTemplate;
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	virtual void OnComponentDestroyed(bool bDestroyHierarchy) override;
 
 	//https://unrealcpp.com/on-component-hit/
 	UFUNCTION()
 	virtual void OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	
 };
