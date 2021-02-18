@@ -31,6 +31,21 @@ AFPSCharacter::AFPSCharacter()
 	GunMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
 	GunMeshComponent->CastShadow = false;
 	GunMeshComponent->SetupAttachment(Mesh1PComponent, "GripPoint");
+
+	//Get all boxes in world (I already tagged them)
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "PhysicsBox", BoxArray);
+
+	if (CubeSplitClass)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Pls"));
+		for (int i = 0; i < BoxArray.Num(); i++)
+		{
+			//Add the cube split component to each, so we can control what happens when they get shot
+			//BoxArray[i]->AddComponent("CubeSplitComponent",false, BoxArray[i]->GetActorTransform(),cubeComp)
+			BoxArray[i]->AddComponentByClass(CubeSplitClass, false, BoxArray[i]->GetActorTransform(), false);
+		}
+
+	}
 }
 
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CubeSplitComponent.h"
 #include "FPSCharacter.generated.h"
 
 class UInputComponent;
@@ -43,6 +44,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
 	float CurrentCharge = 0.0f;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Box Setup")
+	TArray<AActor*> BoxArray;
+
+	UPROPERTY(VisibleAnywhere)
+	TSubclassOf<UCubeSplitComponent> CubeSplitClass;
 
 public:
 	AFPSCharacter();

@@ -8,7 +8,7 @@
 #include "CubeSplitComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable )
 class FPSGAME_API UCubeSplitComponent : public UActorComponent
 {
 	GENERATED_BODY()
