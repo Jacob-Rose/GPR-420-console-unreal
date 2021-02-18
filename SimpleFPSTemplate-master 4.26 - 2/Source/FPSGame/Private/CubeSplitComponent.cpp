@@ -41,15 +41,15 @@ void UCubeSplitComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UCubeSplitComponent::OnComponentDestroyed(bool bDestroyHierarchy)
 {
-	GetWorld()->SpawnActor(m_SplitCubeTemplate);
-	//Destroy Actor
-	UActorComponent::OnComponentDestroyed(bDestroyHierarchy);
+	if (GetWorld())	//If the world exists (not having this causes MAJOR ISSUES)
+	{
+		GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate, GetOwner()->GetActorLocation(), GetOwner()->GetActorRotation());
+		//Destroy Actor
+		UActorComponent::OnComponentDestroyed(bDestroyHierarchy);
+	}
 }
 
 void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	
-
-
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Hit"));
 }
-

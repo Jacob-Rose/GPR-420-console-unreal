@@ -48,11 +48,11 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 		//Set Scale
 		FVector Scale = OtherComp->GetComponentScale();
-		Scale *= 0.95f;
+		Scale *= 0.8f;
 
 		if (Scale.GetMin() < 0.8f)
 		{
-			ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
+			//ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
 			OtherComp->GetOwner()->Destroy();
 		}
 		else
