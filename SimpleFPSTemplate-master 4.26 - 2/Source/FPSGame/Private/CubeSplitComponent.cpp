@@ -24,7 +24,7 @@ void UCubeSplitComponent::BeginPlay()
 	Super::BeginPlay();
 	m_MeshComp = (UStaticMeshComponent*)GetOwner()->GetComponentByClass(TSubclassOf<UStaticMeshComponent>()); //used for collision
 
-	//m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+	m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
 	//boxComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
 	
 }
@@ -40,12 +40,14 @@ void UCubeSplitComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UCubeSplitComponent::OnComponentDestroyed(bool bDestroyHierarchy)
 {
-	GetWorld()->SpawnActor(m_SplitCubeTemplate.Get());
-	//Destroy Actor
+	
+
 	UActorComponent::OnComponentDestroyed(bDestroyHierarchy);
 }
 
 void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Hit"));
+	GetWorld()->SpawnActor(m_SplitCubeTemplate.Get());
+	DestroyComponent();
 }
