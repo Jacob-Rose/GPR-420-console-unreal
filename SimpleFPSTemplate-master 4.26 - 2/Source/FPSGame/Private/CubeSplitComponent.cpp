@@ -13,8 +13,7 @@ UCubeSplitComponent::UCubeSplitComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Content/Blueprints/BP_Bomb")); //we loaded the bomb in c++, a blueprint
-	//m_SplitCubeTemplate.
+	//static ConstructorHelpers::FObjectFinder<UBlueprint> ItemBlueprint(TEXT("Content/Blueprints/BP_Bomb")); //we loaded the bomb in c++, a blueprint
 	// ...
 }
 
@@ -41,14 +40,13 @@ void UCubeSplitComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UCubeSplitComponent::OnComponentDestroyed(bool bDestroyHierarchy)
 {
-	GetWorld()->SpawnActor(m_SplitCubeTemplate);
+	GetWorld()->SpawnActor(m_SplitCubeTemplate.Get());
 	//Destroy Actor
 	UActorComponent::OnComponentDestroyed(bDestroyHierarchy);
 }
 
 void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	
 
 
 }

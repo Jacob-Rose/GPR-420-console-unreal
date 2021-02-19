@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "BombActor.h"
 #include "CubeSplitComponent.generated.h"
 
 
@@ -27,8 +28,7 @@ public:
 	UStaticMeshComponent* m_MeshComp;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UActorComponent> m_SplitCubeTemplate;
-
+	TSubclassOf<AActor> m_SplitCubeTemplate;
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
