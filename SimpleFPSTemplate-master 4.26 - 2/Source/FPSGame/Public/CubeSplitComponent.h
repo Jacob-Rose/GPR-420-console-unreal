@@ -9,7 +9,7 @@
 #include "CubeSplitComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable )
 class FPSGAME_API UCubeSplitComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -27,8 +27,10 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* m_MeshComp;
 
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AActor> m_SplitCubeTemplate;
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 

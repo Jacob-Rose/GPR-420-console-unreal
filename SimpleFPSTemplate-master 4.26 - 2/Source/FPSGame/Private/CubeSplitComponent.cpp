@@ -47,7 +47,5 @@ void UCubeSplitComponent::OnComponentDestroyed(bool bDestroyHierarchy)
 
 void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-
-
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Hit"));
 }
-
