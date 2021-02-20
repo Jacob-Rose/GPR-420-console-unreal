@@ -53,5 +53,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<AActor*> BoxArray;
+
+	void SetSpeed(float newSpeed);
 };
 

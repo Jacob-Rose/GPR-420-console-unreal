@@ -153,7 +153,7 @@ void AFPSCharacter::Fire()
 			temp->bIsCharged = bIsCharging;
 			temp->ChargeVal = CurrentCharge;
 			temp->BoxArray = BoxArray;
-
+			temp->SetSpeed(1000.0f);
 			bCooldown = true;
 		}
 	}

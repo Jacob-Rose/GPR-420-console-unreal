@@ -50,7 +50,7 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 			}
 			ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
 			OtherActor->Destroy();
-			myBomb->SetActorScale3D(myBomb->GetActorScale3D() * 4.0f);
+			myBomb->SetActorScale3D(myBomb->GetActorScale3D() * 2.0f * ChargeVal);
 		}
 		else
 		{
@@ -78,4 +78,11 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		}
 		Destroy();
 	}
+}
+
+void AFPSProjectile::SetSpeed(float newSpeed)
+{
+	ProjectileMovement->Velocity = GetActorForwardVector().GetSafeNormal() * newSpeed;
+	ProjectileMovement->ProjectileGravityScale *= 0.0f;
+	SetActorScale3D(FVector(1.0f, 1.0f, 0.25f));
 }
