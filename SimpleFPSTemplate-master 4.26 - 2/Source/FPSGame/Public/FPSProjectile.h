@@ -23,9 +23,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Projectile")
 	USphereComponent* CollisionComp;
 
-	/** Projectile movement component */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
-	UProjectileMovementComponent* ProjectileMovement;
 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
@@ -35,6 +32,9 @@ public:
 
 	AFPSProjectile();
 
+	/** Projectile movement component */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	UProjectileMovementComponent* ProjectileMovement;
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -43,6 +43,15 @@ public:
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }
 
 	/** Returns ProjectileMovement subobject **/
-	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+	//UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+	bool bIsCharged = false;
+
+	float ChargeVal = 0.0f;
+
+	float ShotSpeed = 3000.0f;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<AActor*> BoxArray;
 };
 

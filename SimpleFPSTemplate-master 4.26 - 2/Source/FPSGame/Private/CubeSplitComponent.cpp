@@ -24,8 +24,9 @@ void UCubeSplitComponent::BeginPlay()
 	Super::BeginPlay();
 	m_MeshComp = (UStaticMeshComponent*)GetOwner()->GetComponentByClass(TSubclassOf<UStaticMeshComponent>()); //used for collision
 
-	m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
-	//boxComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+
+	//m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+	//boxComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);	
 	
 }
 

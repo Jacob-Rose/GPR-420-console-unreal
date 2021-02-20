@@ -23,13 +23,14 @@ AFPSProjectile::AFPSProjectile()
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 3000.f;
+	ProjectileMovement->InitialSpeed = ShotSpeed;
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
 
 	// Die after 3 seconds by default
 	InitialLifeSpan = 3.0f;
+
 }
 
 
@@ -45,11 +46,11 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		if (matInstance)
 			matInstance->SetVectorParameterValue("Color", FLinearColor::MakeRandomColor());
 
-
+		/*
 		//Set Scale
 		FVector Scale = OtherComp->GetComponentScale();
 		Scale *= 0.8f;
-
+		
 		if (Scale.GetMin() < 0.8f)
 		{
 			//ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
@@ -58,6 +59,20 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		else
 		{
 			OtherComp->SetWorldScale3D(Scale);
+		}*/
+
+		if (bIsCharged)
+		{
+			for (int i = 0; i < BoxArray.Num(); i++)
+			{
+				if (OtherActor != BoxArray[i]&& FVector::Dist(OtherActor->GetActorLocation(), BoxArray[i]->GetActorLocation())<ChargeVal*100.0f)	//If the hit actor is not the box actor, and the distance between is less than the radius
+				{
+					BoxArray[i]->Destroy();
+				}
+			}
+			ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
+			OtherActor->Destroy();
+			myBomb->SetActorScale3D(myBomb->GetActorScale3D() * 4.0f);
 		}
 
 		Destroy();
