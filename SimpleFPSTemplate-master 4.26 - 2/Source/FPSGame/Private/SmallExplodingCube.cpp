@@ -16,7 +16,7 @@ void ASmallExplodingCube::BeginPlay()
 {
 	Super::BeginPlay();
 	AddComponentByClass(meshCompToAdd, false, GetTransform(), false);
-	GetComponentByClass<UStaticMeshComponent>()->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+	//GetComponentByClass<UStaticMeshComponent>()->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
 }
 
 // Called every frame
@@ -29,6 +29,7 @@ void ASmallExplodingCube::Tick(float DeltaTime)
 void ASmallExplodingCube::BeginDestroy()
 {
 	//create explosion
+	Super::BeginDestroy()
 }
 
 void ASmallExplodingCube::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
