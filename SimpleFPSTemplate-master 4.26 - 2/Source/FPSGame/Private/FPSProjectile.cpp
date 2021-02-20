@@ -39,28 +39,6 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 300.0f, GetActorLocation());
-
-		//Set Color
-		UMaterialInstanceDynamic* matInstance = OtherComp->CreateAndSetMaterialInstanceDynamic(0);
-		if (matInstance)
-			matInstance->SetVectorParameterValue("Color", FLinearColor::MakeRandomColor());
-
-		/*
-		//Set Scale
-		FVector Scale = OtherComp->GetComponentScale();
-		Scale *= 0.8f;
-		
-		if (Scale.GetMin() < 0.8f)
-		{
-			//ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
-			OtherComp->GetOwner()->Destroy();
-		}
-		else
-		{
-			OtherComp->SetWorldScale3D(Scale);
-		}*/
-
 		if (bIsCharged)
 		{
 			for (int i = 0; i < BoxArray.Num(); i++)
@@ -74,7 +52,30 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 			OtherActor->Destroy();
 			myBomb->SetActorScale3D(myBomb->GetActorScale3D() * 4.0f);
 		}
+		else
+		{
+			OtherComp->AddImpulseAtLocation(GetVelocity() * 300.0f, GetActorLocation());
+		//Set Color
+			UMaterialInstanceDynamic* matInstance = OtherComp->CreateAndSetMaterialInstanceDynamic(0);
+			if (matInstance)
+				matInstance->SetVectorParameterValue("Color", FLinearColor::MakeRandomColor());
 
+		
+		//Set Scale
+			FVector Scale = OtherComp->GetComponentScale();
+			Scale *= 0.8f;
+		
+			if (Scale.GetMin() < 0.8f)
+			{
+				//ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
+				OtherComp->GetOwner()->Destroy();
+			}
+			else
+			{
+				OtherComp->SetWorldScale3D(Scale);
+			}
+
+		}
 		Destroy();
 	}
 }
