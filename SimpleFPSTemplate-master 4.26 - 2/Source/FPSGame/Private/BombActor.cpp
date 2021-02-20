@@ -16,7 +16,7 @@ ABombActor::ABombActor()
 
 void ABombActor::Explode()
 {
-	UGameplayStatics::SpawnEmitterAtLocation(this, ExplosionTemplate, GetActorLocation());
+	UGameplayStatics::SpawnEmitterAtLocation(this, ExplosionTemplate, GetActorLocation(),GetActorRotation(),GetActorScale()*4.0f);
 	Destroy();
 }
 

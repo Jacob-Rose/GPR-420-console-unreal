@@ -15,6 +15,7 @@ class USoundBase;
 class UAnimSequence;
 
 
+
 UCLASS()
 class AFPSCharacter : public ACharacter
 {
@@ -39,10 +40,18 @@ protected:
 	bool bIsCharging = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
+	bool bCooldown = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
 	float MaxCharge = 10.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
 	float CurrentCharge = 0.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Charging")
+	float CooldownTimer = 0.0f;
+
+	const float TIME_TO_COOLDOWN = 3.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Box Setup")
 	TArray<AActor*> BoxArray;

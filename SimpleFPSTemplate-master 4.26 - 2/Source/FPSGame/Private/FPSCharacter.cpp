@@ -75,7 +75,7 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (bIsCharging)
+	if (bIsCharging && !bCooldown)
 	{
 		//Add deltaTime to charge variable until >= max charge
 		if (CurrentCharge < MaxCharge)
@@ -89,8 +89,30 @@ void AFPSCharacter::Tick(float DeltaTime)
 	}
 	else
 	{
-		//Charge variable = 0.0f;
 		CurrentCharge = 0.0f;
+	}
+	/*
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Charge: %i"),CurrentCharge));
+	}*/
+
+	if (bCooldown)
+	{
+		CooldownTimer += DeltaTime;
+		if (CooldownTimer >= TIME_TO_COOLDOWN)
+		{
+			bCooldown = false;
+			CooldownTimer = 0.0f;
+		}
+	}
+
+	for (int i = 0; i < BoxArray.Num(); i++)
+	{
+		if (BoxArray[i] == nullptr)
+		{
+			BoxArray.RemoveAt(i);
+		}
 	}
 
 }
@@ -125,7 +147,15 @@ void AFPSCharacter::Fire()
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 		// spawn the projectile at the muzzle
-		GetWorld()->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, ActorSpawnParams);
+		AFPSProjectile* temp = GetWorld()->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, ActorSpawnParams);
+		if (bIsCharging)
+		{
+			temp->bIsCharged = bIsCharging;
+			temp->ChargeVal = CurrentCharge;
+			temp->BoxArray = BoxArray;
+			temp->SetSpeed(1000.0f);
+			bCooldown = true;
+		}
 	}
 
 	// try and play the sound if specified
