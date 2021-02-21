@@ -66,17 +66,17 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 			Scale *= 0.8f;
 			OtherComp->SetWorldScale3D(Scale);
 			//Old from project, conflicts with new definition
-			/*
+			
 			if (Scale.GetMin() < 0.8f)
 			{
-				//ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
+				ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
 				OtherComp->GetOwner()->Destroy();
 			}
 			else
 			{
 				OtherComp->SetWorldScale3D(Scale);
 			}
-			*/
+			
 		}
 		Destroy();
 	}
