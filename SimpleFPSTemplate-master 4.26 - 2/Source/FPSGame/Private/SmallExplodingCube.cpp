@@ -58,8 +58,10 @@ void ASmallExplodingCube::OnComponentHit(UPrimitiveComponent* HitComp, AActor* O
 	if (OtherActor && OtherActor->IsA(m_ProjectileToReact))
 	{
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Bomb Spawned from Small Cube"));
-		ABombActor* bomb = GetWorld()->SpawnActor<ABombActor>(m_BombToSpawn);
-		bomb->m_ExplodeDelay = 0.1f;
+		FVector loc = GetActorLocation();
+		FRotator rot = GetActorRotation();
+		ABombActor* bomb = GetWorld()->SpawnActor<ABombActor>(m_BombToSpawn, loc, rot);
+		bomb->m_ExplodeDelay = 0.1f; //not working as this variable is used in BeginPlay() which is called at spawn
 		Destroy();
 	}
 	
