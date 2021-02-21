@@ -64,6 +64,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Box Setup")
 	TSubclassOf<UActorComponent> CubeSplitClass;
+
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category="Projectile")
 	TSubclassOf<AFPSProjectile> ProjectileClass;

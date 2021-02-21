@@ -114,6 +114,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 			BoxArray.RemoveAt(i);
 		}
 	}
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), "PhysicsBox", BoxArray);
 
 }
 

@@ -68,15 +68,19 @@ void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* O
 		FRotator rot = GetOwner()->GetActorRotation();
 		loc += FVector(150.0f, 150.0f, 300.0f);
 		AActor* actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		//actor->AddComponent("CubeSplitComponent",false, actor->GetActorTransform(),GetWorld());
 		loc += FVector(-300.0f, 0.0f, 0.0f);
 		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
 		actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		//actor->AddComponent("CubeSplitComponent", false, actor->GetActorTransform(), GetWorld());
 		loc += FVector(0.0f, -300.0f, 0.0f);
 		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
 		actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		//actor->AddComponent("CubeSplitComponent", false, actor->GetActorTransform(), GetWorld());
 		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
 		loc += FVector(300.0f, 0.0f, 0.0f);
 		actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		//actor->AddComponent("CubeSplitComponent", false, actor->GetActorTransform(), GetWorld());
 		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
 		GetOwner()->Destroy();
 	}
