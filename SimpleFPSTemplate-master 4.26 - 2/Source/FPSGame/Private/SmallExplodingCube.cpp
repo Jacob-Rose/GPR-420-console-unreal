@@ -55,13 +55,12 @@ void ASmallExplodingCube::BeginDestroy()
 
 void ASmallExplodingCube::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	return;
 	if (OtherActor && OtherActor->IsA(m_ProjectileToReact))
 	{
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Bomb Spawned from Small Cube"));
 		ABombActor* bomb = GetWorld()->SpawnActor<ABombActor>(m_BombToSpawn);
-		//bomb->m_ExplodeDelay = 0.1f;
-		//Destroy();
+		bomb->m_ExplodeDelay = 0.1f;
+		Destroy();
 	}
 	
 }
