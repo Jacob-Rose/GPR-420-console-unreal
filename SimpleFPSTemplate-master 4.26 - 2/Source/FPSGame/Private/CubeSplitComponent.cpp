@@ -22,12 +22,23 @@ UCubeSplitComponent::UCubeSplitComponent()
 void UCubeSplitComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	m_MeshComp = (UStaticMeshComponent*)GetOwner()->GetComponentByClass(TSubclassOf<UStaticMeshComponent>()); //used for collision
+	m_MeshComp = (UStaticMeshComponent*)GetOwner()->GetComponentByClass(UStaticMeshComponent::StaticClass()); //used for collision
 
-
-	//m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
-	//boxComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);	
+	if (m_MeshComp != NULL)
+	{
+		m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
+	}
 	
+}
+
+void UCubeSplitComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (m_MeshComp != NULL)
+	{
+		m_MeshComp->OnComponentHit.RemoveDynamic(this, &UCubeSplitComponent::OnComponentHit);
+		m_MeshComp = nullptr;
+	}
+	Super::EndPlay(EndPlayReason);
 }
 
 
@@ -35,20 +46,39 @@ void UCubeSplitComponent::BeginPlay()
 void UCubeSplitComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UCubeSplitComponent::OnComponentDestroyed(bool bDestroyHierarchy)
 {
-	
-
-	UActorComponent::OnComponentDestroyed(bDestroyHierarchy);
+	if (m_MeshComp != NULL)
+	{
+		m_MeshComp->OnComponentHit.RemoveDynamic(this, &UCubeSplitComponent::OnComponentHit);
+		m_MeshComp = nullptr;
+	}
+	Super::OnComponentDestroyed(bDestroyHierarchy);
 }
 
 void UCubeSplitComponent::OnComponentHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Hit"));
-	GetWorld()->SpawnActor(m_SplitCubeTemplate.Get());
-	DestroyComponent();
+	if (OtherActor && OtherActor->IsA(m_ProjectileToReact))
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Hit"));
+		FActorSpawnParameters spawnParams;
+		FVector loc = GetOwner()->GetActorLocation();
+		FRotator rot = GetOwner()->GetActorRotation();
+		loc += FVector(50.0f, 50.0f, 0.0f);
+		AActor* actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		loc += FVector(-100.0f, 0.0f, 0.0f);
+		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
+		actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		loc += FVector(0.0f, 50.0f, 0.0f);
+		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
+		actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
+		loc += FVector(100.0f, 0.0f, 0.0f);
+		actor = GetWorld()->SpawnActor<AActor>(m_SplitCubeTemplate.Get(), loc, rot, spawnParams);
+		actor->SetActorScale3D(GetOwner()->GetActorScale3D() * 0.25f);
+		GetOwner()->Destroy();
+	}
+
 }

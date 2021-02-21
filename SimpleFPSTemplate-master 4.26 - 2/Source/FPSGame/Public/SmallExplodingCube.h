@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "BombActor.h"
 #include "SmallExplodingCube.generated.h"
 
 UCLASS()
@@ -14,13 +15,20 @@ class FPSGAME_API ASmallExplodingCube : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ASmallExplodingCube();
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UStaticMeshComponent* m_MeshComp;
 
-protected:
-	TSubclassOf<UStaticMeshComponent> meshCompToAdd;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<AActor> m_ProjectileToReact;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<ABombActor> m_BombToSpawn;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

@@ -14,13 +14,19 @@ class FPSGAME_API ABombActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABombActor();
+	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
+	float m_ExplodeDelay;
 
+	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
+	float m_ExplosionRadius;
+
+	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
+	float m_ExplosionForce;
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
-	float ExplodeDelay;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
-	UParticleSystem* ExplosionTemplate;
+	UParticleSystem* m_ExplosionTemplate;
 
 	UFUNCTION()
 	void Explode();

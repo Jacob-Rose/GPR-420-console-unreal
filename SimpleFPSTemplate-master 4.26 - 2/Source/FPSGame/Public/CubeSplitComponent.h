@@ -22,16 +22,20 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	bool setup = false;
 
 public:	
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	UStaticMeshComponent* m_MeshComp;
-
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AActor> m_SplitCubeTemplate;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<AActor> m_ProjectileToReact;
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
