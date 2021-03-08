@@ -28,6 +28,7 @@ void AFPSCharacter::BeginPlay()
 	}
 }
 
+
 AFPSCharacter::AFPSCharacter()
 {
 	//Charging will need the ability to tick
@@ -62,6 +63,9 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSCharacter::Fire);
+
+	PlayerInputComponent->BindAction("Restart", IE_Pressed, this, &AFPSCharacter::RestartLevel);
+
 	PlayerInputComponent->BindAction("Charge", IE_Pressed, this, &AFPSCharacter::ChargePress);
 	PlayerInputComponent->BindAction("Charge", IE_Released, this, &AFPSCharacter::ChargeRelease);
 
@@ -71,6 +75,7 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
+
 
 void AFPSCharacter::Tick(float DeltaTime)
 {
@@ -126,11 +131,43 @@ void AFPSCharacter::ChargePress()
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("ChargePressed"));
 	}*/
 	bIsCharging = true;
+	/*
+	FTimerHandle TimerHandle;
+	FTimerDelegate TimerDel;
+	float RandomSize = FMath::RandRange(1.0f, 5.0f);
+	TimerDel.BindUFunction(this, FName("DestroyBoxes"), RandomSize);
+	UWorld* const World = GetWorld();
+	if (World != nullptr)
+	{
+		World->GetTimerManager().SetTimer(TimerHandle, TimerDel, 3.0f, false);
+	}*/
 }
+
 
 void AFPSCharacter::ChargeRelease()
 {
 	bIsCharging = false;
+}
+
+void AFPSCharacter::RestartLevel()
+{
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT("Restarting Level in 5 sec"));
+	FTimerDelegate RestartTimerDel;
+	FTimerHandle RestartTimerHandle;
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AActor::StaticClass(), TestArray);
+
+	RestartTimerDel.BindUFunction(this, FName("DelegateRestart"));	//must be UFUNCTION()
+	GetWorldTimerManager().SetTimer(RestartTimerHandle, RestartTimerDel, 5.0f, false);
+}
+
+void AFPSCharacter::DelegateRestart()
+{
+	//GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT(printf("%i",TestArray.Num())));
+	if (TestArray.Num()==0)
+	{
+		GetWorld()->GetFirstPlayerController()->RestartLevel();
+	}
 }
 
 void AFPSCharacter::Fire()

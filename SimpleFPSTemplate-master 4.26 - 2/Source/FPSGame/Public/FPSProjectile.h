@@ -28,6 +28,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
 	TSubclassOf<ABombActor> bombClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
+	UParticleSystem* m_ExplosionTemplate;
+
+	//TArray<AActor*>* ArrayOfBox;	//Assign this to FPSCharacter array of exploding boxes
 public:
 
 	AFPSProjectile();
@@ -38,6 +42,9 @@ public:
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void DestroyBuildDestroy(AActor* HitBox, float randomNum);
 
 	/** Returns CollisionComp subobject **/
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }
@@ -55,5 +62,6 @@ public:
 	TArray<AActor*> BoxArray;
 
 	void SetSpeed(float newSpeed);
+
 };
 

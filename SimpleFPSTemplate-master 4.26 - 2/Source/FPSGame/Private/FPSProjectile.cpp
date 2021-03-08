@@ -2,6 +2,7 @@
 
 #include "FPSProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/SphereComponent.h"
 #include "BombActor.h"
 
@@ -29,10 +30,31 @@ AFPSProjectile::AFPSProjectile()
 	ProjectileMovement->bShouldBounce = true;
 
 	// Die after 3 seconds by default
-	InitialLifeSpan = 3.0f;
+	InitialLifeSpan = 5.0f;
 
 }
 
+void AFPSProjectile::DestroyBuildDestroy(AActor* HitBox, float randomNum)
+{	
+	for (int i = 0; i < BoxArray.Num(); i++)
+	{
+		if (HitBox != BoxArray[i]&& FVector::Dist(HitBox->GetActorLocation(), BoxArray[i]->GetActorLocation())<ChargeVal*100.0f)	//If the hit actor is not the box actor, and the distance between is less than the radius
+		{
+			float finalRand = randomNum * FMath::RandRange(1.0f, ChargeVal);
+			UParticleSystemComponent* PS = UGameplayStatics::SpawnEmitterAtLocation(this, m_ExplosionTemplate, BoxArray[i]->GetActorLocation(), BoxArray[i]->GetActorRotation(), BoxArray[i]->GetActorScale3D()*finalRand);	//Gonna want to put these in a sepparate function with a timer delegate
+			if (PS != nullptr)
+			{
+				//PS->SetWorldScale3D(FVector(finalRand));
+			}
+			BoxArray[i]->Destroy();
+		}
+	}
+	UParticleSystemComponent* finalPS = UGameplayStatics::SpawnEmitterAtLocation(this, m_ExplosionTemplate, HitBox->GetActorLocation(), HitBox->GetActorRotation(), HitBox->GetActorScale3D()*(randomNum*FMath::RandRange(1.0f,ChargeVal)));
+	
+	//ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
+	HitBox->Destroy();
+	//myBomb->SetActorScale3D(myBomb->GetActorScale3D() * 2.0f * ChargeVal);
+}
 
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
@@ -41,16 +63,16 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 	{
 		if (bIsCharged)
 		{
-			for (int i = 0; i < BoxArray.Num(); i++)
+			FTimerHandle TimerHandle;
+			FTimerDelegate TimerDel;
+			float Random = FMath::RandRange(1.0f, 5.0f);
+			TimerDel.BindUFunction(this, FName("DestroyBuildDestroy"), OtherActor,Random);
+			UWorld* World = GetWorld();
+			if (World != nullptr)
 			{
-				if (OtherActor != BoxArray[i]&& FVector::Dist(OtherActor->GetActorLocation(), BoxArray[i]->GetActorLocation())<ChargeVal*100.0f)	//If the hit actor is not the box actor, and the distance between is less than the radius
-				{
-					BoxArray[i]->Destroy();
-				}
+				World->GetTimerManager().SetTimer(TimerHandle, TimerDel, 1.0f, false);	//Not working, probably because the projectile is getting destroyed before the timer is up
 			}
-			ABombActor* myBomb = GetWorld()->SpawnActor<ABombActor>(bombClass, OtherActor->GetActorLocation(), OtherActor->GetActorRotation());
-			OtherActor->Destroy();
-			myBomb->SetActorScale3D(myBomb->GetActorScale3D() * 2.0f * ChargeVal);
+			return;
 		}
 		else
 		{

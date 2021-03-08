@@ -24,7 +24,6 @@ public:
 	float m_ExplosionForce;
 protected:
 
-
 	UPROPERTY(EditDefaultsOnly, Category = "BombActor")
 	UParticleSystem* m_ExplosionTemplate;
 

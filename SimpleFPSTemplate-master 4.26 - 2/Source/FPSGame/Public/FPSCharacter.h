@@ -56,8 +56,22 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Box Setup")
 	TArray<AActor*> BoxArray;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Box Setup")
+	TArray<AActor*> BoxesToBoom;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
+	TArray<AActor*> TestArray;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	/*Handles level restart*/
+	void RestartLevel();
+
+	//Handles delegate function for delayed restart
+	UFUNCTION()
+	void DelegateRestart();
+
 
 public:
 	AFPSCharacter();
