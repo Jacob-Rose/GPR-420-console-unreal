@@ -15,7 +15,7 @@ AWeatherHttpActor::AWeatherHttpActor()
 void AWeatherHttpActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SendWeatherRequest();
 }
 
 // Called every frame
