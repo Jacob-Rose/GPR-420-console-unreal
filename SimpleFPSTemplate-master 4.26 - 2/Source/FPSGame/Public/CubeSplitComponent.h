@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "BombActor.h"
+#include "FPSCharacter.h"
 #include "CubeSplitComponent.generated.h"
 
 
@@ -24,7 +25,12 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	UFUNCTION()
+	void WiggleJump();
+
 	bool setup = false;
+
+	AFPSCharacter* m_PlayerChar;
 
 public:	
 

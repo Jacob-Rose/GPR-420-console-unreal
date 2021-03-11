@@ -3,6 +3,7 @@
 
 #include "CubeSplitComponent.h"
 
+#include "Kismet/GameplayStatics.h"
 #include <Components/BoxComponent.h>
 #include "UObject/ConstructorHelpers.h"
 
@@ -28,7 +29,20 @@ void UCubeSplitComponent::BeginPlay()
 	{
 		m_MeshComp->OnComponentHit.AddDynamic(this, &UCubeSplitComponent::OnComponentHit);
 	}
-	
+	m_PlayerChar = Cast<AFPSCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	/*
+	if(m_PlayerChar!= nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, m_PlayerChar->GetActorLocation().ToString());
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Cast Failed")));
+	}*/
+	if (m_PlayerChar->IsValidLowLevel())
+	{
+		m_PlayerChar->BoxWiggle.AddDynamic(this, &UCubeSplitComponent::WiggleJump);
+	}
 }
 
 void UCubeSplitComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -39,6 +53,11 @@ void UCubeSplitComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		m_MeshComp = nullptr;
 	}
 	Super::EndPlay(EndPlayReason);
+}
+
+void UCubeSplitComponent::WiggleJump()
+{
+	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Yo holy shit he dead")));
 }
 
 

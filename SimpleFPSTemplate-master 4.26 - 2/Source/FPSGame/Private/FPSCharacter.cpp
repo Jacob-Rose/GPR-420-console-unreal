@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Animation/AnimSequence.h"
+#include "CubeSplitComponent.h"
 
 
 void AFPSCharacter::BeginPlay()
@@ -114,8 +115,10 @@ void AFPSCharacter::Tick(float DeltaTime)
 
 	for (int i = 0; i < BoxArray.Num(); i++)
 	{
-		if (BoxArray[i] == nullptr)
+		if (BoxArray[i]->IsActorBeingDestroyed())
 		{
+			BoxWiggle.Broadcast();
+			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Broadcast Sent")));
 			BoxArray.RemoveAt(i);
 		}
 	}
