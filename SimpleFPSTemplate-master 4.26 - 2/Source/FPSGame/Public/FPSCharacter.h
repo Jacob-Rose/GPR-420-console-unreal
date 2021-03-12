@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "CubeSplitComponent.h"
 #include "FPSCharacter.generated.h"
 
 class UInputComponent;
@@ -14,7 +13,7 @@ class AFPSProjectile;
 class USoundBase;
 class UAnimSequence;
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWiggle);
 
 UCLASS()
 class AFPSCharacter : public ACharacter
@@ -90,6 +89,9 @@ public:
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	UAnimSequence* FireAnimation;
+
+	UPROPERTY()
+	FWiggle BoxWiggle;
 
 protected:
 		
