@@ -2,6 +2,8 @@
 
 
 #include "WeatherHttpActor.h"
+#include <Runtime/JsonUtilities/Public/JsonObjectConverter.h>
+
 
 // Sets default values
 AWeatherHttpActor::AWeatherHttpActor()
@@ -15,7 +17,6 @@ AWeatherHttpActor::AWeatherHttpActor()
 void AWeatherHttpActor::BeginPlay()
 {
 	Super::BeginPlay();
-	SendWeatherRequest();
 }
 
 // Called every frame
@@ -39,7 +40,7 @@ void AWeatherHttpActor::WeatherRequestRecieved(FHttpRequestPtr Request, FHttpRes
 {
 	if (bWasSuccessful)
 	{
-		//https://api.weather.gov/points/44.4793,-73.1972 example
+		//https://api.weather.gov/points/44.4793,-73.1972 example to help with json reading
 		TSharedPtr<FJsonObject> JsonObject;
 		TSharedRef<TJsonReader<>> JsonReader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
@@ -66,11 +67,15 @@ void AWeatherHttpActor::WeatherForcastRecieved(FHttpRequestPtr Request, FHttpRes
 
 		if (FJsonSerializer::Deserialize(JsonReader, JsonObject))
 		{
-			TSharedPtr<FJsonObject> properties = JsonObject->GetObjectField("properties");
-			TArray<TSharedPtr<FJsonValue>> periods = properties->GetArrayField("periods");
+			const TSharedPtr<FJsonObject> properties = JsonObject->GetObjectField("properties");
+			//TArray<TSharedPtr<FJsonValue>> periods = properties->GetArrayField("periods");
 			//https://api.weather.gov/gridpoints/BTV/88,56/forecast example
 			//Actual useful data example
-			FString shortForecast = periods[0]->AsObject()->GetStringField("shortForecast"); //Partly Cloudy, Cloudy, Sunny, Rain
+			//FString shortForecast = periods[0]->AsObject()->GetStringField("shortForecast"); //Partly Cloudy, Cloudy, Sunny, Rain
+
+			FWeatherForecast forecast;
+			FJsonObjectConverter::JsonObjectToUStruct<FWeatherForecast>(properties.ToSharedRef(), &forecast, 0, 0);
+			m_UpdatedWeatherForecast = forecast;
 
 		}
 	}

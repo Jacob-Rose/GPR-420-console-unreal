@@ -10,6 +10,50 @@
 //#include "Runtime/Online/HTTP/Public/HttpModule.h"
 #include "WeatherHttpActor.generated.h"
 
+USTRUCT(BlueprintType)
+struct FWeatherPeriod
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadOnly)
+	FString name;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString startTime;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool isDaytime;
+
+	UPROPERTY(BlueprintReadOnly)
+	int temperature;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString temperatureUnit;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString shortForecast;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString detailedForecast;
+};
+
+USTRUCT(BlueprintType)
+struct FWeatherForecast
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadOnly)
+	FDateTime updated;
+
+	UPROPERTY(BlueprintReadOnly)
+	FString cwa; //location tag, ex. BTV
+
+	UPROPERTY(BlueprintReadOnly)
+	TArray<FWeatherPeriod> periods;
+};
+
+
 UCLASS()
 class FPSGAME_API AWeatherHttpActor : public AActor
 {
@@ -28,11 +72,14 @@ protected:
 
 	FHttpModule* HttpModule;
 
+	UPROPERTY(BlueprintReadOnly)
+	FWeatherForecast m_UpdatedWeatherForecast;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SendWeatherRequest();
 
 	void WeatherRequestRecieved(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
