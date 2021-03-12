@@ -57,7 +57,11 @@ void UCubeSplitComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void UCubeSplitComponent::WiggleJump()
 {
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Yo holy shit he dead")));
+	//GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Yo holy shit he dead")));
+	UPrimitiveComponent* primComp = (UPrimitiveComponent*)GetOwner()->GetComponentByClass(UPrimitiveComponent::StaticClass());
+	UMaterialInstanceDynamic* matInstance = primComp->CreateAndSetMaterialInstanceDynamic(0);
+	if (matInstance)
+		matInstance->SetVectorParameterValue("Color", FLinearColor::MakeRandomColor());
 }
 
 
