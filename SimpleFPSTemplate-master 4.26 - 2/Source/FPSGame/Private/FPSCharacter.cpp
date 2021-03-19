@@ -117,7 +117,7 @@ void AFPSCharacter::Tick(float DeltaTime)
 	{
 		if (BoxArray[i]->IsActorBeingDestroyed())
 		{
-			BoxWiggle.Broadcast();
+			BoxColorChange.Broadcast();
 			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Broadcast Sent")));
 			BoxArray.RemoveAt(i);
 		}
@@ -158,7 +158,7 @@ void AFPSCharacter::RestartLevel()
 	FTimerDelegate RestartTimerDel;
 	FTimerHandle RestartTimerHandle;
 
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AActor::StaticClass(), TestArray);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AActor::StaticClass(), RestartArray);
 
 	RestartTimerDel.BindUFunction(this, FName("DelegateRestart"));	//must be UFUNCTION()
 	GetWorldTimerManager().SetTimer(RestartTimerHandle, RestartTimerDel, 5.0f, false);
@@ -167,7 +167,7 @@ void AFPSCharacter::RestartLevel()
 void AFPSCharacter::DelegateRestart()
 {
 	//GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, TEXT(printf("%i",TestArray.Num())));
-	if (TestArray.Num()==0)
+	if (RestartArray.Num()==0)
 	{
 		GetWorld()->GetFirstPlayerController()->RestartLevel();
 	}

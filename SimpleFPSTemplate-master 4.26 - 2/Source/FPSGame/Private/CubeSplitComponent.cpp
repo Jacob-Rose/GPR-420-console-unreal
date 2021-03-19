@@ -41,7 +41,7 @@ void UCubeSplitComponent::BeginPlay()
 	}*/
 	if (m_PlayerChar->IsValidLowLevel())
 	{
-		m_PlayerChar->BoxWiggle.AddDynamic(this, &UCubeSplitComponent::WiggleJump);
+		m_PlayerChar->BoxColorChange.AddDynamic(this, &UCubeSplitComponent::ColorChange);
 	}
 }
 
@@ -55,7 +55,7 @@ void UCubeSplitComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void UCubeSplitComponent::WiggleJump()
+void UCubeSplitComponent::ColorChange()
 {
 	//GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1.0f, FColor::Cyan, FString::Printf(TEXT("Yo holy shit he dead")));
 	UPrimitiveComponent* primComp = (UPrimitiveComponent*)GetOwner()->GetComponentByClass(UPrimitiveComponent::StaticClass());

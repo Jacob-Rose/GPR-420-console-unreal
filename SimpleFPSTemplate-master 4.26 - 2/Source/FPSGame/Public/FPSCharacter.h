@@ -13,7 +13,7 @@ class AFPSProjectile;
 class USoundBase;
 class UAnimSequence;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWiggle);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FColorChange);
 
 UCLASS()
 class AFPSCharacter : public ACharacter
@@ -55,11 +55,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Box Setup")
 	TArray<AActor*> BoxArray;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Box Setup")
-	TArray<AActor*> BoxesToBoom;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Setup")
-	TArray<AActor*> TestArray;
+	TArray<AActor*> RestartArray;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -91,7 +88,7 @@ public:
 	UAnimSequence* FireAnimation;
 
 	UPROPERTY()
-	FWiggle BoxWiggle;
+	FColorChange BoxColorChange;
 
 protected:
 		

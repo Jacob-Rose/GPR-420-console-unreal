@@ -26,7 +26,7 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UFUNCTION()
-	void WiggleJump();
+	void ColorChange();
 
 	bool setup = false;
 
