@@ -66,11 +66,11 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 			FTimerHandle TimerHandle;
 			FTimerDelegate TimerDel;
 			float Random = FMath::RandRange(1.0f, 5.0f);
-			TimerDel.BindUFunction(this, FName("DestroyBuildDestroy"), OtherActor,Random);
+			TimerDel.BindUFunction(this, FName("DestroyBuildDestroy"), OtherActor, Random);
 			UWorld* World = GetWorld();
 			if (World != nullptr)
 			{
-				World->GetTimerManager().SetTimer(TimerHandle, TimerDel, 1.0f, false);	//Not working, probably because the projectile is getting destroyed before the timer is up
+				World->GetTimerManager().SetTimer(TimerHandle, TimerDel, 1.0f, false);	//Working now!
 			}
 			return;
 		}
