@@ -3,6 +3,10 @@
 
 #include "BallRollingPawn.h"
 
+#include <Engine/World.h>
+
+
+
 // Sets default values
 ABallRollingPawn::ABallRollingPawn()
 {
@@ -15,7 +19,7 @@ ABallRollingPawn::ABallRollingPawn()
 void ABallRollingPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	m_CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
 }
 
 // Called every frame
@@ -23,12 +27,16 @@ void ABallRollingPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 }
 
 // Called to bind functionality to input
 void ABallRollingPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveX", this, &ABallRollingPawn::MoveXUpdated);
+	PlayerInputComponent->BindAxis("MoveY", this, &ABallRollingPawn::MoveXUpdated);
 
 }
 
