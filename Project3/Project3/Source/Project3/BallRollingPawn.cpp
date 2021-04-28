@@ -26,8 +26,21 @@ void ABallRollingPawn::BeginPlay()
 void ABallRollingPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//https://answers.unrealengine.com/questions/374113/addforce-to-this-pawn.html
+	if (RootComponent && RootComponent->IsSimulatingPhysics())
+	{
+		if (UStaticMeshComponent* meshComp = dynamic_cast<UStaticMeshComponent*>(RootComponent))
+		{
+			FRotator rotation = GetActorRotation();
+			FVector force = rotation.RotateVector(FVector(m_CurrentForce.X, m_CurrentForce.Y, 0));
+			meshComp->AddForce(force);
+		}
+	}
+}
 
-	
+void ABallRollingPawn::Jump()
+{
+	//todo
 }
 
 // Called to bind functionality to input
