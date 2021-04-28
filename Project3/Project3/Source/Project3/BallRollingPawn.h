@@ -19,10 +19,10 @@ public:
 	ABallRollingPawn();
 
 	UPROPERTY(BlueprintReadWrite)
-	float m_ForceAmount;
+	float m_ForceAmount = 100.0f;
 
 	UPROPERTY(BlueprintReadWrite)
-	float m_JumpForce = 100.0f;
+	float m_JumpForce = 1000.0f;
 
 protected:
 	// Called when the game starts or when spawned

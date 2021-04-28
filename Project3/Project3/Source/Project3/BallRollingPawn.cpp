@@ -33,14 +33,22 @@ void ABallRollingPawn::Tick(float DeltaTime)
 		{
 			FRotator rotation = GetActorRotation();
 			FVector force = rotation.RotateVector(FVector(m_CurrentForce.X, m_CurrentForce.Y, 0));
-			meshComp->AddForce(force);
+			meshComp->AddForce(force * m_ForceAmount);
 		}
 	}
 }
 
 void ABallRollingPawn::Jump()
 {
-	//todo
+	if (RootComponent && RootComponent->IsSimulatingPhysics())
+	{
+		if (UStaticMeshComponent* meshComp = dynamic_cast<UStaticMeshComponent*>(RootComponent))
+		{
+			FRotator rotation = GetActorRotation();
+			FVector force = FVector(0.0f,0.0f,m_JumpForce);
+			meshComp->AddForce(force);
+		}
+	}
 }
 
 // Called to bind functionality to input
