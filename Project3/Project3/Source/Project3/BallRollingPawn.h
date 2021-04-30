@@ -19,10 +19,12 @@ public:
 	ABallRollingPawn();
 
 	UPROPERTY(BlueprintReadWrite)
-	float m_ForceAmount = 100.0f;
+	float m_ForceAmount = 50000000.0f;
 
 	UPROPERTY(BlueprintReadWrite)
-	float m_JumpForce = 1000.0f;
+	float m_JumpForce = 5000000.0f;
+
+	UStaticMeshComponent* ballMesh;
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,6 +35,13 @@ protected:
 
 	void MoveXUpdated(float axis) { m_CurrentForce.X = axis; }
 	void MoveYUpdated(float axis) { m_CurrentForce.Y = axis; }
+
+	void MoveForward(float yVal);
+	void MoveRight(float xVal);
+
+	void TurnCamera(float value);
+	void LookUpCamera(float value);
+
 
 	UFUNCTION(BlueprintCallable)
 	void Jump();
