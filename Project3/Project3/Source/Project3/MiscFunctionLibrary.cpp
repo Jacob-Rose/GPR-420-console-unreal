@@ -7,7 +7,7 @@
 void UMiscFunctionLibrary::ChangeLevel(UObject* WorldContext, int LevelIndex)
 {
 	FString newLevel = "Level_";
-	int nextLevel = ++LevelIndex;
+	int nextLevel = LevelIndex + 1;
 	
 	switch (LevelIndex)
 	{
@@ -32,4 +32,5 @@ void UMiscFunctionLibrary::ChangeLevel(UObject* WorldContext, int LevelIndex)
 	default:
 		break;
 	}
+	//UE_LOG(LogTemp, Warning, TEXT("Level Index: %i"),LevelIndex);
 }
